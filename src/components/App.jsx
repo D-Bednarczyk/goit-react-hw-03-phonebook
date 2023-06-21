@@ -6,23 +6,29 @@ import { Filter } from './Filter';
 import { ContactList } from './ContactList';
 
 export class App extends Component {
-  state = {
-    contacts: [
-      { key: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { key: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { key: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { key: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
-  };
+  //odczyt w constructorze local storage
+  constructor(props) {
+    super(props);
+    if (JSON.parse(localStorage.getItem('state')) != null) {
+      this.state = JSON.parse(localStorage.getItem('state'));
+      this.state.filter = '';
+    } else {
+      this.state = {
+        contacts: [
+          { key: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+          { key: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+          { key: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+          { key: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+        ],
+        filter: '',
+      };
+    }
+  }
 
   handleDelete = id => {
     const filteredContacts = this.state.contacts.filter(
       contact => contact.key !== id
     );
-
-    //this.setState(() => ({ contacts: [...filteredContacts] }));
-
     this.setState({ contacts: [...filteredContacts] });
   };
 
@@ -55,6 +61,11 @@ export class App extends Component {
 
     form.reset();
   };
+
+  componentDidUpdate() {
+    localStorage.setItem('state', JSON.stringify(this.state));
+    //console.log(JSON.stringify(this.state.contacts));
+  }
 
   render() {
     return (
