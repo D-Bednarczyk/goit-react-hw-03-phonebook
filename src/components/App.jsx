@@ -6,7 +6,6 @@ import { Filter } from './Filter';
 import { ContactList } from './ContactList';
 
 export class App extends Component {
-  //odczyt w constructorze local storage
   constructor(props) {
     super(props);
     if (JSON.parse(localStorage.getItem('state')) != null) {
@@ -64,7 +63,6 @@ export class App extends Component {
 
   componentDidUpdate() {
     localStorage.setItem('state', JSON.stringify(this.state));
-    //console.log(JSON.stringify(this.state.contacts));
   }
 
   render() {
